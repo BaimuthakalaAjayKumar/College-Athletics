@@ -1,0 +1,1397 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>University Athletics - Gym Access Portal</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.replit.com/agent/bootstrap-agent-dark-theme.min.css" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            /* College colors - using a blue and gold scheme which is common for many colleges */
+            --college-primary: #0033A0;
+            --college-secondary: #FFD100;
+            --college-accent: #FFFFFF;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            background: linear-gradient(135deg, var(--bs-dark) 0%, var(--bs-dark-rgb) 100%);
+        }
+
+        .login-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .hero-section {
+            position: relative;
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://images.unsplash.com/photo-1517836357463-d25dfeac3438?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 4rem 1rem;
+            border-radius: 0.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .logo {
+            max-width: 150px;
+            margin-bottom: 1rem;
+        }
+
+        .login-form {
+            background-color: var(--bs-dark);
+            border-radius: 0.5rem;
+            padding: 2rem;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+        }
+
+        .login-form h2 {
+            color: var(--college-accent);
+            border-bottom: 2px solid var(--college-secondary);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .btn-primary {
+            background-color: var(--college-primary);
+            border-color: var(--college-primary);
+        }
+
+        .btn-primary:hover {
+            background-color: #002180;
+            border-color: #002180;
+        }
+
+        .btn-outline-warning {
+            color: var(--college-secondary);
+            border-color: var(--college-secondary);
+        }
+
+        .btn-outline-warning:hover {
+            background-color: var(--college-secondary);
+            color: var(--bs-dark);
+        }
+
+        .featured-icon {
+            font-size: 2.5rem;
+            color: var(--college-secondary);
+            margin-bottom: 1rem;
+        }
+
+        .dashboard {
+            display: none;
+        }
+
+        .dashboard-header {
+            background-color: var(--bs-dark);
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .profile-pic {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background-color: var(--bs-secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            color: var(--bs-dark);
+            margin: 0 auto 1rem;
+        }
+
+        .schedule-item {
+            background-color: var(--bs-dark);
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+            border-left: 4px solid var(--college-secondary);
+        }
+
+        .active-badge {
+            background-color: var(--college-secondary);
+            color: var(--bs-dark);
+            font-weight: bold;
+        }
+
+        .form-floating label {
+            color: #adb5bd;
+        }
+
+        .alert {
+            display: none;
+        }
+
+        .back-to-login {
+            cursor: pointer;
+            color: var(--college-secondary);
+            text-decoration: underline;
+        }
+
+        .gym-hours {
+            background-color: var(--bs-dark);
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .announcements {
+            background-color: var(--bs-dark);
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+        }
+
+        .announcement-item {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 0.75rem 0;
+        }
+
+        .announcement-item:last-child {
+            border-bottom: none;
+        }
+
+        .announcement-date {
+            font-size: 0.85rem;
+            color: var(--bs-secondary);
+        }
+
+        .info-section {
+            padding: 2rem 0;
+        }
+
+        .footer {
+            background-color: var(--bs-dark);
+            padding: 1.5rem 0;
+            margin-top: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .hero-section {
+                padding: 2rem 1rem;
+            }
+
+            .info-section {
+                padding: 1rem 0;
+            }
+        }
+        
+        /* Workout Plan Styles */
+        .stat-card {
+            background-color: rgba(33, 37, 41, 0.6);
+            border-radius: 8px;
+            border-left: 4px solid var(--bs-warning);
+        }
+        
+        .workout-day {
+            background-color: rgba(33, 37, 41, 0.3);
+            border-radius: 8px;
+            padding: 20px;
+            border-left: 4px solid var(--bs-primary);
+        }
+        
+        .workout-day-title {
+            color: var(--bs-info);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .bg-dark-secondary {
+            background-color: #2a2e33;
+        }
+        
+        /* Video tutorial button hover effect */
+        .video-tutorial-btn:hover {
+            transform: scale(1.05);
+            transition: all 0.2s ease;
+        }
+    </style>
+</head>
+<body>
+    <div class="container my-4 login-container">
+        <!-- Login View -->
+        <div id="login-view">
+            <div class="hero-section text-center">
+                <div class="container">
+                    <div class="d-inline-block p-3 mb-3 rounded" style="background-color: rgba(0, 51, 160, 0.8);">
+                        <i class="fas fa-dumbbell fa-3x text-warning"></i>
+                    </div>
+                    <h1 class="display-4 fw-bold mb-4">UNIVERSITY ATHLETICS</h1>
+                    <p class="lead mb-5">Your gateway to fitness and wellness resources on campus</p>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-7 mb-4 mb-md-0">
+                    <div class="p-4">
+                        <h2 class="mb-4">Welcome to the Campus Gym Portal</h2>
+                        <p class="lead">Access your fitness resources, check gym hours, and manage your workout schedule from one centralized location.</p>
+                        
+                        <div class="row mt-5">
+                            <div class="col-md-4 text-center mb-4">
+                                <div class="featured-icon">
+                                    <i class="fas fa-calendar-alt"></i>
+                                </div>
+                                <h5>Gym Schedules</h5>
+                                <p>Real-time access to gym hours and class schedules.</p>
+                            </div>
+                            <div class="col-md-4 text-center mb-4">
+                                <div class="featured-icon">
+                                    <i class="fas fa-users"></i>
+                                </div>
+                                <h5>Fitness Classes</h5>
+                                <p>Browse and register for fitness classes.</p>
+                            </div>
+                            <div class="col-md-4 text-center mb-4">
+                                <div class="featured-icon">
+                                    <i class="fas fa-heartbeat"></i>
+                                </div>
+                                <h5>Fitness Tracking</h5>
+                                <p>Monitor your workouts and progress.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-5">
+                    <div class="login-form">
+                        <h2 class="text-center mb-4">Student Login</h2>
+                        
+                        <div class="alert alert-danger" id="error-message" role="alert">
+                            <i class="fas fa-exclamation-circle me-2"></i>
+                            <span id="error-text"></span>
+                        </div>
+                        
+                        <div class="alert alert-success" id="success-message" role="alert">
+                            <i class="fas fa-check-circle me-2"></i>
+                            <span id="success-text"></span>
+                        </div>
+                        
+                        <form id="login-form">
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" id="student-id" placeholder="Student ID" required>
+                                <label for="student-id"><i class="fas fa-id-card me-2"></i>Student ID</label>
+                            </div>
+                            
+                            <div class="form-floating mb-3">
+                                <input type="password" class="form-control" id="password" placeholder="Password" required>
+                                <label for="password"><i class="fas fa-lock me-2"></i>Password</label>
+                            </div>
+                            
+                            <div class="mb-3 form-check">
+                                <input type="checkbox" class="form-check-input" id="remember-me">
+                                <label class="form-check-label" for="remember-me">Remember me</label>
+                            </div>
+                            
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-primary btn-lg">
+                                    <i class="fas fa-sign-in-alt me-2"></i>Login
+                                </button>
+                            </div>
+                        </form>
+                        
+                        <div class="text-center mt-3">
+                            <a href="#" class="text-warning">Forgot Password?</a>
+                            <span class="mx-2">|</span>
+                            <a href="#" id="register-link" class="text-warning">New Student? Register</a>
+                        </div>
+                        
+                        <hr class="my-4">
+                        
+                        <div class="text-center">
+                            <p>Need help? Contact the Student Services desk.</p>
+                            <p><i class="fas fa-phone me-2"></i>7207344440</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="info-section mt-5">
+                <div class="row gy-4">
+                    <div class="col-md-6">
+                        <div class="gym-hours">
+                            <h3 class="mb-4"><i class="fas fa-clock me-2 text-warning"></i>Gym Hours</h3>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <ul class="list-unstyled">
+                                        <li class="mb-2"><strong>Monday - Friday:</strong> 4:00 PM - 8:00 PM</li>
+                                        <li class="mb-2"><strong>Saturday:</strong> 4:00 PM - 8:00 PM</li>
+                                        <li class="mb-2"><strong>Sunday:</strong> 4:00 PM - 8:00 PM</li>
+                                    </ul>
+                                </div>
+                                <div class="col-sm-6">
+                                    <p class="mb-2"><strong>Holiday Hours:</strong> May vary</p>
+                                    <p><span class="badge active-badge">Currently Open</span></p>
+                                    <p class="small mt-3">Last updated: Today, 4:00 PM</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6">
+                        <div class="announcements">
+                            <h3 class="mb-4"><i class="fas fa-bullhorn me-2 text-warning"></i>Announcements</h3>
+                            
+                            <div class="announcement-item">
+                                <h5>Fall Fitness Challenge Starts Next Week</h5>
+                                <p>Join us for the semester-long fitness challenge with great prizes!</p>
+                                <p class="announcement-date">Posted 2 days ago</p>
+                            </div>
+                            
+                            <div class="announcement-item">
+                                <h5>Pool Maintenance Schedule</h5>
+                                <p>The pool will be closed for maintenance on Wednesday from 2-5 PM.</p>
+                                <p class="announcement-date">Posted 4 days ago</p>
+                            </div>
+                            
+                            <div class="announcement-item">
+                                <h5>New Yoga Classes Added</h5>
+                                <p>We've added 3 new yoga classes to the schedule. Check them out!</p>
+                                <p class="announcement-date">Posted 1 week ago</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Registration Form (Hidden Initially) -->
+        <div id="registration-view" style="display: none;">
+            <div class="container my-5">
+                <div class="row justify-content-center">
+                    <div class="col-md-8">
+                        <div class="login-form">
+                            <div class="d-flex justify-content-between align-items-center mb-4">
+                                <h2>New Student Registration</h2>
+                                <a href="#" class="back-to-login text-warning">
+                                    <i class="fas fa-arrow-left me-2"></i>Back to Login
+                                </a>
+                            </div>
+                            
+                            <div class="alert alert-danger" id="reg-error-message" role="alert" style="display: none;">
+                                <i class="fas fa-exclamation-circle me-2"></i>
+                                <span id="reg-error-text"></span>
+                            </div>
+                            
+                            <div class="alert alert-success" id="reg-success-message" role="alert" style="display: none;">
+                                <i class="fas fa-check-circle me-2"></i>
+                                <span id="reg-success-text"></span>
+                            </div>
+                            
+                            <form id="registration-form">
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <div class="form-floating mb-3">
+                                            <input type="text" class="form-control" id="reg-first-name" placeholder="First Name" required>
+                                            <label for="reg-first-name"><i class="fas fa-user me-2"></i>First Name</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-floating mb-3">
+                                            <input type="text" class="form-control" id="reg-last-name" placeholder="Last Name" required>
+                                            <label for="reg-last-name"><i class="fas fa-user me-2"></i>Last Name</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control" id="reg-student-id" placeholder="Student ID" required>
+                                    <label for="reg-student-id"><i class="fas fa-id-card me-2"></i>Student ID</label>
+                                </div>
+                                
+                                <div class="form-floating mb-3">
+                                    <input type="email" class="form-control" id="reg-email" placeholder="Email" required>
+                                    <label for="reg-email"><i class="fas fa-envelope me-2"></i>Email</label>
+                                </div>
+                                
+                                <div class="form-floating mb-3">
+                                    <input type="password" class="form-control" id="reg-password" placeholder="Password" required>
+                                    <label for="reg-password"><i class="fas fa-lock me-2"></i>Password</label>
+                                </div>
+                                
+                                <div class="form-floating mb-3">
+                                    <input type="password" class="form-control" id="reg-confirm-password" placeholder="Confirm Password" required>
+                                    <label for="reg-confirm-password"><i class="fas fa-lock me-2"></i>Confirm Password</label>
+                                </div>
+                                
+                                <h5 class="mt-4 mb-3">Physical Information</h5>
+                                
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <div class="form-floating mb-3">
+                                            <input type="number" class="form-control" id="reg-height" placeholder="Height (cm)" required>
+                                            <label for="reg-height"><i class="fas fa-ruler-vertical me-2"></i>Height (cm)</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-floating mb-3">
+                                            <input type="number" class="form-control" id="reg-weight" placeholder="Weight (kg)" required>
+                                            <label for="reg-weight"><i class="fas fa-weight me-2"></i>Weight (kg)</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-floating mb-3">
+                                    <select class="form-select" id="fitness-level" required>
+                                        <option value="" selected disabled>Select your fitness level</option>
+                                        <option value="beginner">Beginner (New to exercise)</option>
+                                        <option value="intermediate">Intermediate (Occasional exerciser)</option>
+                                        <option value="advanced">Advanced (Regular exerciser)</option>
+                                        <option value="athlete">Athlete (Competitive sports)</option>
+                                    </select>
+                                    <label for="fitness-level"><i class="fas fa-running me-2"></i>Fitness Level</label>
+                                </div>
+                                
+                                <div class="form-floating mb-3">
+                                    <select class="form-select" id="fitness-goal" required>
+                                        <option value="" selected disabled>Select your primary goal</option>
+                                        <option value="weightloss">Weight Loss</option>
+                                        <option value="muscle">Muscle Building</option>
+                                        <option value="endurance">Endurance Training</option>
+                                        <option value="flexibility">Flexibility & Mobility</option>
+                                        <option value="general">General Fitness</option>
+                                    </select>
+                                    <label for="fitness-goal"><i class="fas fa-bullseye me-2"></i>Fitness Goal</label>
+                                </div>
+                                
+                                <div class="mb-3 form-check">
+                                    <input type="checkbox" class="form-check-input" id="terms-agree" required>
+                                    <label class="form-check-label" for="terms-agree">I agree to the <a href="#" class="text-warning">Terms of Service</a> and <a href="#" class="text-warning">Privacy Policy</a></label>
+                                </div>
+                                
+                                <div class="d-grid">
+                                    <button type="submit" class="btn btn-primary btn-lg">
+                                        <i class="fas fa-user-plus me-2"></i>Create Account
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Dashboard View (Hidden Initially) -->
+        <div id="dashboard-view" class="dashboard">
+            <div class="dashboard-header">
+                <div class="container">
+                    <div class="row align-items-center">
+                        <div class="col-md-8">
+                            <h1 class="mb-0"><i class="fas fa-dumbbell text-warning me-2"></i> University Athletics</h1>
+                        </div>
+                        <div class="col-md-4 text-md-end mt-3 mt-md-0">
+                            <button id="logout-btn" class="btn btn-outline-warning">
+                                <i class="fas fa-sign-out-alt me-2"></i>Logout
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="container mt-4">
+                <div class="row">
+                    <div class="col-md-4 mb-4">
+                        <div class="card bg-dark">
+                            <div class="card-body text-center">
+                                <div class="profile-pic">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                                <h3 id="student-name" class="mb-3">Student Name</h3>
+                                <p id="student-id-display" class="mb-2">Student ID: 1234567</p>
+                                <p class="mb-2">Membership Status: <span class="badge active-badge">Active</span></p>
+                                <button class="btn btn-outline-warning mt-3">
+                                    <i class="fas fa-edit me-2"></i>Edit Profile
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="card bg-dark mt-4">
+                            <div class="card-body">
+                                <h4><i class="fas fa-stopwatch text-warning me-2"></i> Quick Stats</h4>
+                                <div class="row text-center mt-3">
+                                    <div class="col-4">
+                                        <h3>12</h3>
+                                        <p class="small">Visits This Month</p>
+                                    </div>
+                                    <div class="col-4">
+                                        <h3>3</h3>
+                                        <p class="small">Classes Registered</p>
+                                    </div>
+                                    <div class="col-4">
+                                        <h3>45</h3>
+                                        <p class="small">Total Hours</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-8">
+                        <div class="card bg-dark mb-4">
+                            <div class="card-body">
+                                <h4 class="mb-4"><i class="fas fa-calendar-alt text-warning me-2"></i> Today's Schedule</h4>
+                                
+                                <div class="schedule-item">
+                                    <div class="row align-items-center">
+                                        <div class="col-md-2 text-center">
+                                            <h5 class="mb-0">4:15 PM</h5>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <h5 class="mb-1">Afternoon Cardio</h5>
+                                            <p class="mb-0 small">AI Tracked | Location: Studio 2</p>
+                                        </div>
+                                        <div class="col-md-3 text-md-end mt-2 mt-md-0">
+                                            <span class="badge bg-success">Available</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="schedule-item">
+                                    <div class="row align-items-center">
+                                        <div class="col-md-2 text-center">
+                                            <h5 class="mb-0">5:30 PM</h5>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <h5 class="mb-1">Evening Yoga</h5>
+                                            <p class="mb-0 small">AI Tracked | Location: Wellness Center</p>
+                                        </div>
+                                        <div class="col-md-3 text-md-end mt-2 mt-md-0">
+                                            <span class="badge bg-danger">Full</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="schedule-item">
+                                    <div class="row align-items-center">
+                                        <div class="col-md-2 text-center">
+                                            <h5 class="mb-0">5:30 PM</h5>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <h5 class="mb-1">Powerlifting Basics</h5>
+                                            <p class="mb-0 small">AI Tracked | Location: Weight Room</p>
+                                        </div>
+                                        <div class="col-md-3 text-md-end mt-2 mt-md-0">
+                                            <span class="badge bg-primary">Registered</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="schedule-item">
+                                    <div class="row align-items-center">
+                                        <div class="col-md-2 text-center">
+                                            <h5 class="mb-0">7:00 PM</h5>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <h5 class="mb-1">Advanced Yoga</h5>
+                                            <p class="mb-0 small">AI Tracked | Location: Studio 1</p>
+                                        </div>
+                                        <div class="col-md-3 text-md-end mt-2 mt-md-0">
+                                            <span class="badge bg-success">Available</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="text-center mt-4">
+                                    <button class="btn btn-primary">
+                                        <i class="fas fa-calendar-plus me-2"></i>View Full Schedule
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Personalized Workout Plan Section -->
+                        <div class="card bg-dark mb-4">
+                            <div class="card-body">
+                                <h4 class="mb-4"><i class="fas fa-dumbbell text-warning me-2"></i> Your Personalized Workout Plan</h4>
+                                <div id="workout-plan-container">
+                                    <!-- This will be populated dynamically based on user metrics -->
+                                    <div class="alert alert-info">
+                                        <i class="fas fa-info-circle me-2"></i> Loading your personalized workout plan...
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Equipment Demonstration Videos -->
+                        <div class="card bg-dark mb-4">
+                            <div class="card-body">
+                                <h4 class="mb-4"><i class="fas fa-video text-warning me-2"></i> Equipment Tutorials</h4>
+                                
+                                <div class="row">
+                                    <div class="col-md-6 mb-4">
+                                        <div class="card bg-dark-secondary h-100">
+                                            <div class="ratio ratio-16x9">
+                                                <iframe src="https://www.youtube.com/embed/U8Li9TlR57Q" title="Treadmill Tutorial" allowfullscreen></iframe>
+                                            </div>
+                                            <div class="card-body">
+                                                <h5 class="card-title">Treadmill Basics</h5>
+                                                <p class="card-text small">Learn how to properly use the treadmill for walking, jogging, and interval training.</p>
+                                                <span class="badge bg-info">Beginner Friendly</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="col-md-6 mb-4">
+                                        <div class="card bg-dark-secondary h-100">
+                                            <div class="ratio ratio-16x9">
+                                                <iframe src="https://www.youtube.com/embed/roCP3wJUUDg" title="Elliptical Tutorial" allowfullscreen></iframe>
+                                            </div>
+                                            <div class="card-body">
+                                                <h5 class="card-title">Elliptical Machine Guide</h5>
+                                                <p class="card-text small">Master the elliptical for a low-impact, full-body cardio workout.</p>
+                                                <span class="badge bg-info">Beginner Friendly</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="row">
+                                    <div class="col-md-6 mb-4">
+                                        <div class="card bg-dark-secondary h-100">
+                                            <div class="ratio ratio-16x9">
+                                                <iframe src="https://www.youtube.com/embed/y1r9toPQNkM" title="Bench Press Tutorial" allowfullscreen></iframe>
+                                            </div>
+                                            <div class="card-body">
+                                                <h5 class="card-title">Bench Press Technique</h5>
+                                                <p class="card-text small">Learn proper form for the bench press to build chest strength safely.</p>
+                                                <span class="badge bg-warning">Intermediate</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="col-md-6 mb-4">
+                                        <div class="card bg-dark-secondary h-100">
+                                            <div class="ratio ratio-16x9">
+                                                <iframe src="https://www.youtube.com/embed/9ef5Y-J4-s8" title="Squat Rack Tutorial" allowfullscreen></iframe>
+                                            </div>
+                                            <div class="card-body">
+                                                <h5 class="card-title">Squat Rack Safety & Technique</h5>
+                                                <p class="card-text small">Master proper form and safety procedures for using the squat rack.</p>
+                                                <span class="badge bg-warning">Intermediate</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="text-center mt-2">
+                                    <button class="btn btn-primary">
+                                        <i class="fas fa-th-list me-2"></i>View All Equipment Tutorials
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-4">
+                                <div class="card bg-dark h-100">
+                                    <div class="card-body">
+                                        <h4><i class="fas fa-clock text-warning me-2"></i> Gym Hours</h4>
+                                        <ul class="list-unstyled mt-3">
+                                            <li class="mb-2"><strong>Monday - Friday:</strong> 4:00 PM - 8:00 PM</li>
+                                            <li class="mb-2"><strong>Saturday:</strong> 9:00 AM - 4:00 PM</li>
+                                            <li class="mb-2"><strong>Sunday:</strong> 9:00 AM - 4:00 PM</li>
+                                        </ul>
+                                        <p class="mt-3"><span class="badge active-badge">Currently Open</span></p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-6 mb-4">
+                                <div class="card bg-dark h-100">
+                                    <div class="card-body">
+                                        <h4><i class="fas fa-bell text-warning me-2"></i> Notifications</h4>
+                                        <div class="mt-3">
+                                            <div class="d-flex align-items-start mb-3">
+                                                <div class="me-3">
+                                                    <i class="fas fa-info-circle text-info fa-lg"></i>
+                                                </div>
+                                                <div>
+                                                    <p class="mb-1">Your Powerlifting class is today at 5:30 PM</p>
+                                                    <p class="small text-muted mb-0">15 minutes ago</p>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="d-flex align-items-start">
+                                                <div class="me-3">
+                                                    <i class="fas fa-exclamation-circle text-warning fa-lg"></i>
+                                                </div>
+                                                <div>
+                                                    <p class="mb-1">Pool will be closed for maintenance tomorrow</p>
+                                                    <p class="small text-muted mb-0">Yesterday</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 text-center text-md-start">
+                    <p>© 2023 University Athletics. All rights reserved.</p>
+                </div>
+                <div class="col-md-6 text-center text-md-end">
+                    <a href="#" class="text-decoration-none me-3">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="#" class="text-decoration-none me-3">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="#" class="text-decoration-none me-3">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Elements - Login
+            const loginForm = document.getElementById('login-form');
+            const loginView = document.getElementById('login-view');
+            const dashboardView = document.getElementById('dashboard-view');
+            const logoutBtn = document.getElementById('logout-btn');
+            const errorMessage = document.getElementById('error-message');
+            const successMessage = document.getElementById('success-message');
+            const studentIdInput = document.getElementById('student-id');
+            const passwordInput = document.getElementById('password');
+            const studentNameElement = document.getElementById('student-name');
+            const studentIdDisplay = document.getElementById('student-id-display');
+            
+            // Elements - Registration
+            const registrationView = document.getElementById('registration-view');
+            const registrationForm = document.getElementById('registration-form');
+            const registerLink = document.getElementById('register-link');
+            const backToLoginLinks = document.querySelectorAll('.back-to-login');
+            const regErrorMessage = document.getElementById('reg-error-message');
+            const regSuccessMessage = document.getElementById('reg-success-message');
+            
+            // Sample student credentials for demo purposes
+            // In a real application, this would be handled by a server-side authentication system
+            const validCredentials = {
+                '1234567': { password: 'password123', name: 'John Smith' },
+                '7654321': { password: 'password456', name: 'Emma Johnson' },
+                '1111111': { password: 'password789', name: 'Michael Brown' }
+            };
+            
+            // Show error message
+            function showError(message) {
+                errorMessage.innerHTML = `<i class="fas fa-exclamation-circle me-2"></i>${message}`;
+                errorMessage.style.display = 'block';
+                successMessage.style.display = 'none';
+                
+                // Automatically hide the error after 5 seconds
+                setTimeout(() => {
+                    errorMessage.style.display = 'none';
+                }, 5000);
+            }
+            
+            // Show success message
+            function showSuccess(message) {
+                successMessage.innerHTML = `<i class="fas fa-check-circle me-2"></i>${message}`;
+                successMessage.style.display = 'block';
+                errorMessage.style.display = 'none';
+                
+                // Automatically hide the success message after 5 seconds
+                setTimeout(() => {
+                    successMessage.style.display = 'none';
+                }, 5000);
+            }
+            
+            // Switch to dashboard view
+            function showDashboard(studentId, studentName) {
+                loginView.style.display = 'none';
+                dashboardView.style.display = 'block';
+                
+                // Update student information in the dashboard
+                studentNameElement.textContent = studentName;
+                studentIdDisplay.textContent = `Student ID: ${studentId}`;
+                
+                // Generate personalized workout plan if physical info exists
+                const userInfo = validCredentials[studentId];
+                if (userInfo && userInfo.physical) {
+                    generateWorkoutPlan(userInfo.physical);
+                }
+            }
+            
+            // Generate personalized workout plan based on user's physical metrics
+            function generateWorkoutPlan(physicalInfo) {
+                const workoutPlanContainer = document.getElementById('workout-plan-container');
+                
+                // Calculate BMI
+                const heightInMeters = physicalInfo.height / 100;
+                const bmi = (physicalInfo.weight / (heightInMeters * heightInMeters)).toFixed(1);
+                
+                let workoutHTML = '';
+                const fitnessLevel = physicalInfo.fitnessLevel;
+                const fitnessGoal = physicalInfo.fitnessGoal;
+                
+                // Create plan header with physical stats
+                workoutHTML += `
+                    <div class="mb-4">
+                        <div class="row">
+                            <div class="col-md-4 text-center mb-3 mb-md-0">
+                                <div class="stat-card py-3">
+                                    <h2>${physicalInfo.height} cm</h2>
+                                    <p class="mb-0">Height</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4 text-center mb-3 mb-md-0">
+                                <div class="stat-card py-3">
+                                    <h2>${physicalInfo.weight} kg</h2>
+                                    <p class="mb-0">Weight</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4 text-center">
+                                <div class="stat-card py-3">
+                                    <h2>${bmi}</h2>
+                                    <p class="mb-0">BMI</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                // Add workout plan based on fitness level and goal
+                workoutHTML += '<div class="workout-days">';
+                
+                // Generate different plans based on fitness level and goals
+                if (fitnessLevel === 'beginner') {
+                    if (fitnessGoal === 'weightloss') {
+                        workoutHTML += createWorkoutDay('Day 1 - Full Body', [
+                            {name: 'Walking on Treadmill', sets: '1', reps: '20 mins', videoId: 'U8Li9TlR57Q'},
+                            {name: 'Bodyweight Squats', sets: '3', reps: '10', videoId: '9ef5Y-J4-s8'},
+                            {name: 'Modified Push-ups', sets: '3', reps: '8', videoId: 'y1r9toPQNkM'},
+                            {name: 'Seated Rows', sets: '3', reps: '10', videoId: 'roCP3wJUUDg'}
+                        ]);
+                        workoutHTML += createWorkoutDay('Day 2 - Cardio', [
+                            {name: 'Elliptical Trainer', sets: '1', reps: '20 mins', videoId: 'roCP3wJUUDg'},
+                            {name: 'Walking on Incline', sets: '1', reps: '15 mins', videoId: 'U8Li9TlR57Q'},
+                            {name: 'Stretching Routine', sets: '1', reps: '10 mins', videoId: '9ef5Y-J4-s8'}
+                        ]);
+                        workoutHTML += createWorkoutDay('Day 3 - Full Body', [
+                            {name: 'Stationary Bike', sets: '1', reps: '15 mins', videoId: 'roCP3wJUUDg'},
+                            {name: 'Bodyweight Lunges', sets: '3', reps: '8 each leg', videoId: '9ef5Y-J4-s8'},
+                            {name: 'Dumbbell Shoulder Press', sets: '2', reps: '10', videoId: 'y1r9toPQNkM'},
+                            {name: 'Planks', sets: '3', reps: '20 secs', videoId: '9ef5Y-J4-s8'}
+                        ]);
+                    } else if (fitnessGoal === 'muscle') {
+                        workoutHTML += createWorkoutDay('Day 1 - Upper Body', [
+                            {name: 'Dumbbell Chest Press', sets: '3', reps: '10', videoId: 'y1r9toPQNkM'},
+                            {name: 'Assisted Pull-ups', sets: '3', reps: '8', videoId: '9ef5Y-J4-s8'},
+                            {name: 'Lateral Raises', sets: '3', reps: '12', videoId: 'y1r9toPQNkM'},
+                            {name: 'Tricep Pushdowns', sets: '3', reps: '12', videoId: 'roCP3wJUUDg'}
+                        ]);
+                        workoutHTML += createWorkoutDay('Day 2 - Lower Body', [
+                            {name: 'Leg Press Machine', sets: '3', reps: '12', videoId: '9ef5Y-J4-s8'},
+                            {name: 'Leg Curls', sets: '3', reps: '12', videoId: '9ef5Y-J4-s8'},
+                            {name: 'Calf Raises', sets: '3', reps: '15', videoId: '9ef5Y-J4-s8'},
+                            {name: 'Bodyweight Glute Bridges', sets: '3', reps: '15', videoId: '9ef5Y-J4-s8'}
+                        ]);
+                        workoutHTML += createWorkoutDay('Day 3 - Light Cardio & Core', [
+                            {name: 'Walking on Treadmill', sets: '1', reps: '10 mins', videoId: 'U8Li9TlR57Q'},
+                            {name: 'Crunches', sets: '3', reps: '12', videoId: '9ef5Y-J4-s8'},
+                            {name: 'Russian Twists', sets: '3', reps: '12 each side', videoId: '9ef5Y-J4-s8'},
+                            {name: 'Planks', sets: '3', reps: '30 secs', videoId: '9ef5Y-J4-s8'}
+                        ]);
+                    } else if (fitnessGoal === 'endurance') {
+                        workoutHTML += createWorkoutDay('Day 1 - Cardio Circuit', [
+                            {name: 'Treadmill Walking/Light Jogging', sets: '1', reps: '15 mins', videoId: 'U8Li9TlR57Q'},
+                            {name: 'Elliptical Trainer', sets: '1', reps: '10 mins', videoId: 'roCP3wJUUDg'},
+                            {name: 'Stationary Bike', sets: '1', reps: '10 mins', videoId: 'roCP3wJUUDg'}
+                        ]);
+                        workoutHTML += createWorkoutDay('Day 2 - Cardio & Strength', [
+                            {name: 'Treadmill Walking', sets: '1', reps: '10 mins', videoId: 'U8Li9TlR57Q'},
+                            {name: 'Bodyweight Squats', sets: '3', reps: '15', videoId: '9ef5Y-J4-s8'},
+                            {name: 'Push-ups (Modified if needed)', sets: '3', reps: '10', videoId: 'y1r9toPQNkM'},
+                            {name: 'Bodyweight Reverse Lunges', sets: '3', reps: '10 each leg', videoId: '9ef5Y-J4-s8'}
+                        ]);
+                        workoutHTML += createWorkoutDay('Day 3 - Endurance Focus', [
+                            {name: 'Elliptical Intervals', sets: '1', reps: '20 mins (1 min easy, 1 min moderate)', videoId: 'roCP3wJUUDg'},
+                            {name: 'Light Resistance Circuit', sets: '2', reps: '10 each exercise', videoId: '9ef5Y-J4-s8'},
+                            {name: 'Stretching', sets: '1', reps: '10 mins', videoId: '9ef5Y-J4-s8'}
+                        ]);
+                    } else {
+                        // General Fitness or Flexibility Goal
+                        workoutHTML += createWorkoutDay('Day 1 - Full Body Basics', [
+                            {name: 'Treadmill Walking', sets: '1', reps: '10 mins', videoId: 'U8Li9TlR57Q'},
+                            {name: 'Bodyweight Squats', sets: '3', reps: '12', videoId: '9ef5Y-J4-s8'},
+                            {name: 'Modified Push-ups', sets: '3', reps: '10', videoId: 'y1r9toPQNkM'},
+                            {name: 'Seated Rows', sets: '3', reps: '12', videoId: 'roCP3wJUUDg'},
+                            {name: 'Full Body Stretching', sets: '1', reps: '10 mins', videoId: '9ef5Y-J4-s8'}
+                        ]);
+                        workoutHTML += createWorkoutDay('Day 2 - Cardio & Mobility', [
+                            {name: 'Elliptical Trainer', sets: '1', reps: '15 mins', videoId: 'roCP3wJUUDg'},
+                            {name: 'Dynamic Stretching', sets: '1', reps: '10 mins', videoId: '9ef5Y-J4-s8'},
+                            {name: 'Yoga Fundamentals', sets: '1', reps: '15 mins', videoId: '9ef5Y-J4-s8'}
+                        ]);
+                        workoutHTML += createWorkoutDay('Day 3 - Light Full Body', [
+                            {name: 'Recumbent Bike', sets: '1', reps: '10 mins', videoId: 'roCP3wJUUDg'},
+                            {name: 'Dumbbell Shoulder Press', sets: '3', reps: '10', videoId: 'y1r9toPQNkM'},
+                            {name: 'Leg Press (Light Weight)', sets: '3', reps: '12', videoId: '9ef5Y-J4-s8'},
+                            {name: 'Planks', sets: '3', reps: '20 secs', videoId: '9ef5Y-J4-s8'},
+                            {name: 'Static Stretching', sets: '1', reps: '10 mins', videoId: '9ef5Y-J4-s8'}
+                        ]);
+                    }
+                } else if (fitnessLevel === 'intermediate') {
+                    // Intermediate level workouts (more intense variations)
+                    if (fitnessGoal === 'weightloss') {
+                        workoutHTML += createWorkoutDay('Day 1 - HIIT Cardio', [
+                            {name: 'Treadmill Intervals', sets: '1', reps: '20 mins (30 sec sprint, 90 sec walk)', videoId: 'U8Li9TlR57Q'},
+                            {name: 'Circuit Training', sets: '3', reps: '45 secs each exercise', videoId: '9ef5Y-J4-s8'},
+                            {name: 'Cool Down', sets: '1', reps: '5 mins', videoId: 'roCP3wJUUDg'}
+                        ]);
+                        workoutHTML += createWorkoutDay('Day 2 - Full Body Strength', [
+                            {name: 'Goblet Squats', sets: '4', reps: '12', videoId: '9ef5Y-J4-s8'},
+                            {name: 'Push-ups', sets: '3', reps: '15', videoId: 'y1r9toPQNkM'},
+                            {name: 'Dumbbell Rows', sets: '3', reps: '12 each arm', videoId: 'y1r9toPQNkM'},
+                            {name: 'Lunges with Dumbbells', sets: '3', reps: '10 each leg', videoId: '9ef5Y-J4-s8'},
+                            {name: 'Plank Variations', sets: '3', reps: '45 secs', videoId: '9ef5Y-J4-s8'}
+                        ]);
+                        workoutHTML += createWorkoutDay('Day 4 - Cardio & Core', [
+                            {name: 'Elliptical HIIT', sets: '1', reps: '20 mins', videoId: 'roCP3wJUUDg'},
+                            {name: 'Hanging Leg Raises', sets: '3', reps: '12', videoId: '9ef5Y-J4-s8'},
+                            {name: 'Russian Twists', sets: '3', reps: '20 each side', videoId: '9ef5Y-J4-s8'},
+                            {name: 'Mountain Climbers', sets: '3', reps: '30 secs', videoId: '9ef5Y-J4-s8'}
+                        ]);
+                    } else {
+                        // Other intermediate level workout plans
+                        workoutHTML += createWorkoutDay('Day 1 - Upper Body Focus', [
+                            {name: 'Bench Press', sets: '4', reps: '10', videoId: 'y1r9toPQNkM'},
+                            {name: 'Pull-ups/Lat Pulldowns', sets: '3', reps: '10', videoId: '9ef5Y-J4-s8'},
+                            {name: 'Seated Shoulder Press', sets: '3', reps: '12', videoId: 'y1r9toPQNkM'},
+                            {name: 'Cable Tricep Pushdowns', sets: '3', reps: '12', videoId: 'roCP3wJUUDg'},
+                            {name: 'Dumbbell Bicep Curls', sets: '3', reps: '12', videoId: 'y1r9toPQNkM'}
+                        ]);
+                        workoutHTML += createWorkoutDay('Day 2 - Lower Body Focus', [
+                            {name: 'Barbell Back Squats', sets: '4', reps: '10', videoId: '9ef5Y-J4-s8'},
+                            {name: 'Romanian Deadlifts', sets: '3', reps: '12', videoId: '9ef5Y-J4-s8'},
+                            {name: 'Leg Extensions', sets: '3', reps: '15', videoId: '9ef5Y-J4-s8'},
+                            {name: 'Leg Curls', sets: '3', reps: '15', videoId: '9ef5Y-J4-s8'},
+                            {name: 'Standing Calf Raises', sets: '4', reps: '15', videoId: '9ef5Y-J4-s8'}
+                        ]);
+                        workoutHTML += createWorkoutDay('Day 3 - Active Recovery', [
+                            {name: 'Light Cardio', sets: '1', reps: '20 mins', videoId: 'U8Li9TlR57Q'},
+                            {name: 'Dynamic Stretching', sets: '1', reps: '10 mins', videoId: '9ef5Y-J4-s8'},
+                            {name: 'Foam Rolling', sets: '1', reps: '10 mins', videoId: '9ef5Y-J4-s8'}
+                        ]);
+                    }
+                } else {
+                    // Advanced level workouts
+                    workoutHTML += createWorkoutDay('Day 1 - Push Day', [
+                        {name: 'Barbell Bench Press', sets: '5', reps: '5', videoId: 'y1r9toPQNkM'},
+                        {name: 'Incline Dumbbell Press', sets: '4', reps: '8', videoId: 'y1r9toPQNkM'},
+                        {name: 'Military Press', sets: '4', reps: '8', videoId: 'y1r9toPQNkM'},
+                        {name: 'Dips', sets: '3', reps: '10', videoId: 'y1r9toPQNkM'},
+                        {name: 'Tricep Pushdowns', sets: '3', reps: '12', videoId: 'roCP3wJUUDg'},
+                        {name: 'Lateral Raises', sets: '3', reps: '15', videoId: 'y1r9toPQNkM'}
+                    ]);
+                    workoutHTML += createWorkoutDay('Day 2 - Pull Day', [
+                        {name: 'Deadlifts', sets: '5', reps: '5', videoId: '9ef5Y-J4-s8'},
+                        {name: 'Pull-ups', sets: '4', reps: '8', videoId: '9ef5Y-J4-s8'},
+                        {name: 'Barbell Rows', sets: '4', reps: '8', videoId: '9ef5Y-J4-s8'},
+                        {name: 'Face Pulls', sets: '3', reps: '12', videoId: 'roCP3wJUUDg'},
+                        {name: 'Barbell Curls', sets: '3', reps: '10', videoId: 'y1r9toPQNkM'},
+                        {name: 'Hammer Curls', sets: '3', reps: '12', videoId: 'y1r9toPQNkM'}
+                    ]);
+                    workoutHTML += createWorkoutDay('Day 3 - Leg Day', [
+                        {name: 'Barbell Squats', sets: '5', reps: '5', videoId: '9ef5Y-J4-s8'},
+                        {name: 'Leg Press', sets: '4', reps: '10', videoId: '9ef5Y-J4-s8'},
+                        {name: 'Romanian Deadlifts', sets: '4', reps: '10', videoId: '9ef5Y-J4-s8'},
+                        {name: 'Walking Lunges', sets: '3', reps: '12 per leg', videoId: '9ef5Y-J4-s8'},
+                        {name: 'Leg Extensions', sets: '3', reps: '15', videoId: '9ef5Y-J4-s8'},
+                        {name: 'Standing Calf Raises', sets: '4', reps: '20', videoId: '9ef5Y-J4-s8'}
+                    ]);
+                }
+                
+                workoutHTML += '</div>';
+                
+                // Add note about workout plan
+                workoutHTML += `
+                    <div class="mt-4 alert alert-warning">
+                        <i class="fas fa-info-circle me-2"></i>
+                        <strong>Note:</strong> This workout plan is personalized based on your physical metrics and fitness goals. 
+                        Remember to warm up before each session and follow the AI tracking guidance for proper form.
+                    </div>
+                    <div class="text-center mt-4">
+                        <button class="btn btn-primary">
+                            <i class="fas fa-print me-2"></i>Print Workout Plan
+                        </button>
+                    </div>
+                `;
+                
+                // Update the workout plan container
+                workoutPlanContainer.innerHTML = workoutHTML;
+            }
+            
+            // Helper function to create a workout day card
+            function createWorkoutDay(title, exercises) {
+                let dayHTML = `
+                    <div class="workout-day mb-4">
+                        <h5 class="workout-day-title mb-3">${title}</h5>
+                        <div class="table-responsive">
+                            <table class="table table-dark table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Exercise</th>
+                                        <th class="text-center">Sets</th>
+                                        <th class="text-center">Reps</th>
+                                        <th class="text-center">Tutorial</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                `;
+                
+                // Add exercises
+                exercises.forEach(exercise => {
+                    dayHTML += `
+                        <tr>
+                            <td>${exercise.name}</td>
+                            <td class="text-center">${exercise.sets}</td>
+                            <td class="text-center">${exercise.reps}</td>
+                            <td class="text-center">
+                                <button class="btn btn-sm btn-outline-info video-tutorial-btn" data-video-id="${exercise.videoId}">
+                                    <i class="fas fa-play-circle"></i> Watch
+                                </button>
+                            </td>
+                        </tr>
+                    `;
+                });
+                
+                dayHTML += `
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                `;
+                
+                return dayHTML;
+            }
+            
+            // Switch to login view
+            function showLogin() {
+                dashboardView.style.display = 'none';
+                loginView.style.display = 'block';
+                
+                // Clear form fields
+                loginForm.reset();
+            }
+            
+            // Handle form submission
+            loginForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const studentId = studentIdInput.value.trim();
+                const password = passwordInput.value;
+                
+                // Form validation
+                if (studentId === '') {
+                    showError('Please enter your Student ID');
+                    studentIdInput.focus();
+                    return;
+                }
+                
+                if (password === '') {
+                    showError('Please enter your password');
+                    passwordInput.focus();
+                    return;
+                }
+                
+                // Check if student ID exists and password is correct
+                if (validCredentials[studentId] && validCredentials[studentId].password === password) {
+                    // Authentication successful
+                    showSuccess('Login successful! Redirecting to dashboard...');
+                    
+                    // Simulate a short delay before redirecting to dashboard
+                    setTimeout(() => {
+                        showDashboard(studentId, validCredentials[studentId].name);
+                    }, 1500);
+                } else {
+                    // Authentication failed
+                    showError('Invalid Student ID or password. Please try again.');
+                    passwordInput.value = '';
+                    passwordInput.focus();
+                }
+            });
+            
+            // Handle logout
+            logoutBtn.addEventListener('click', function() {
+                showLogin();
+                showSuccess('You have been successfully logged out.');
+            });
+            
+            // Initialize current time information
+            function updateCurrentStatus() {
+                const now = new Date();
+                const day = now.getDay(); // 0 = Sunday, 1 = Monday, etc.
+                const hours = now.getHours();
+                const minutes = now.getMinutes();
+                
+                // Check if gym is currently open
+                let isOpen = false;
+                
+                if (day >= 1 && day <= 5) {
+                    // Monday - Friday: 4:00 PM - 8:00 PM (16:00 - 20:00 in 24-hour format)
+                    isOpen = (hours >= 16 && hours < 20);
+                } else {
+                    // Saturday & Sunday: 9:00 AM - 4:00 PM (9:00 - 16:00 in 24-hour format)
+                    isOpen = (hours >= 9 && hours < 16);
+                }
+                
+                // Update all status badges
+                const statusBadges = document.querySelectorAll('.active-badge');
+                statusBadges.forEach(badge => {
+                    if (isOpen) {
+                        badge.textContent = 'Currently Open';
+                        badge.classList.add('bg-success');
+                        badge.classList.remove('bg-danger');
+                    } else {
+                        badge.textContent = 'Currently Closed';
+                        badge.classList.add('bg-danger');
+                        badge.classList.remove('bg-success');
+                    }
+                });
+            }
+            
+            // Update current status immediately and then every minute
+            updateCurrentStatus();
+            setInterval(updateCurrentStatus, 60000);
+            
+            // Show registration form
+            function showRegistrationForm() {
+                loginView.style.display = 'none';
+                registrationView.style.display = 'block';
+                dashboardView.style.display = 'none';
+                registrationForm.reset();
+            }
+            
+            // Show registration error message
+            function showRegError(message) {
+                regErrorMessage.querySelector('#reg-error-text').textContent = message;
+                regErrorMessage.style.display = 'block';
+                regSuccessMessage.style.display = 'none';
+                
+                // Automatically hide the error after 5 seconds
+                setTimeout(() => {
+                    regErrorMessage.style.display = 'none';
+                }, 5000);
+            }
+            
+            // Show registration success message
+            function showRegSuccess(message) {
+                regSuccessMessage.querySelector('#reg-success-text').textContent = message;
+                regSuccessMessage.style.display = 'block';
+                regErrorMessage.style.display = 'none';
+                
+                // Automatically hide the success message after 5 seconds
+                setTimeout(() => {
+                    regSuccessMessage.style.display = 'none';
+                }, 5000);
+            }
+            
+            // Handle "New Student? Register" link click
+            registerLink.addEventListener('click', function(e) {
+                e.preventDefault();
+                showRegistrationForm();
+            });
+            
+            // Handle "Back to Login" link clicks
+            backToLoginLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    registrationView.style.display = 'none';
+                    loginView.style.display = 'block';
+                });
+            });
+            
+            // Handle registration form submission
+            registrationForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Get form values
+                const firstName = document.getElementById('reg-first-name').value.trim();
+                const lastName = document.getElementById('reg-last-name').value.trim();
+                const studentId = document.getElementById('reg-student-id').value.trim();
+                const email = document.getElementById('reg-email').value.trim();
+                const password = document.getElementById('reg-password').value;
+                const confirmPassword = document.getElementById('reg-confirm-password').value;
+                const height = document.getElementById('reg-height').value;
+                const weight = document.getElementById('reg-weight').value;
+                const fitnessLevel = document.getElementById('fitness-level').value;
+                const fitnessGoal = document.getElementById('fitness-goal').value;
+                const termsAgree = document.getElementById('terms-agree').checked;
+                
+                // Form validation
+                if (firstName === '' || lastName === '') {
+                    showRegError('Please enter your full name');
+                    return;
+                }
+                
+                if (studentId === '') {
+                    showRegError('Please enter your Student ID');
+                    return;
+                }
+                
+                if (email === '' || !email.includes('@')) {
+                    showRegError('Please enter a valid email address');
+                    return;
+                }
+                
+                if (password === '') {
+                    showRegError('Please enter a password');
+                    return;
+                }
+                
+                if (password.length < 8) {
+                    showRegError('Password must be at least 8 characters long');
+                    return;
+                }
+                
+                if (password !== confirmPassword) {
+                    showRegError('Passwords do not match');
+                    return;
+                }
+                
+                if (!termsAgree) {
+                    showRegError('You must agree to the Terms of Service and Privacy Policy');
+                    return;
+                }
+                
+                // Check if student ID already exists
+                if (validCredentials[studentId]) {
+                    showRegError('This Student ID is already registered. Please use a different ID or contact support.');
+                    return;
+                }
+                
+                // Validate physical information
+                if (!height || height <= 0) {
+                    showRegError('Please enter a valid height');
+                    return;
+                }
+                
+                if (!weight || weight <= 0) {
+                    showRegError('Please enter a valid weight');
+                    return;
+                }
+                
+                if (!fitnessLevel) {
+                    showRegError('Please select your fitness level');
+                    return;
+                }
+                
+                if (!fitnessGoal) {
+                    showRegError('Please select your fitness goal');
+                    return;
+                }
+                
+                // Registration successful - in a real app, this would send data to the server
+                // For this demo, we'll add the new user to our validCredentials object
+                validCredentials[studentId] = {
+                    password: password,
+                    name: `${firstName} ${lastName}`,
+                    physical: {
+                        height: height,
+                        weight: weight,
+                        fitnessLevel: fitnessLevel,
+                        fitnessGoal: fitnessGoal
+                    }
+                };
+                
+                showRegSuccess('Registration successful! You can now log in with your credentials.');
+                
+                // Redirect to login page after a delay
+                setTimeout(() => {
+                    registrationView.style.display = 'none';
+                    loginView.style.display = 'block';
+                }, 3000);
+            });
+            
+            // Video Tutorial Modal Functionality
+            function setupVideoTutorials() {
+                // Select all video tutorial buttons
+                const videoButtons = document.querySelectorAll('.video-tutorial-btn');
+                
+                // Add click event listener to each button
+                videoButtons.forEach(button => {
+                    button.addEventListener('click', function() {
+                        const videoId = this.getAttribute('data-video-id');
+                        openVideoModal(videoId);
+                    });
+                });
+            }
+            
+            // Function to open video modal with specific YouTube video
+            function openVideoModal(videoId) {
+                // Get the video modal element
+                const videoModal = document.getElementById('video-tutorial-modal');
+                const videoFrame = document.getElementById('tutorial-video-frame');
+                
+                // Set the video source with the video ID
+                videoFrame.src = `https://www.youtube.com/embed/${videoId}`;
+                
+                // Create a new Modal instance and show it
+                const modal = new bootstrap.Modal(videoModal);
+                modal.show();
+            }
+            
+            // Function to close video modal and stop the video
+            function closeVideoModal() {
+                const videoFrame = document.getElementById('tutorial-video-frame');
+                videoFrame.src = '';
+            }
+            
+            // Setup video tutorials on page load
+            setupVideoTutorials();
+            
+            // Update setupVideoTutorials call when workout plan is generated
+            const originalGenerateWorkoutPlan = generateWorkoutPlan;
+            generateWorkoutPlan = function(physicalInfo) {
+                originalGenerateWorkoutPlan(physicalInfo);
+                // Setup video tutorial buttons after workout plan is generated
+                setTimeout(setupVideoTutorials, 100);
+            }
+            
+            // Add event listener to stop video when modal is closed
+            document.getElementById('video-tutorial-modal').addEventListener('hidden.bs.modal', closeVideoModal);
+        });
+    </script>
+    
+    <!-- Video Tutorial Modal -->
+    <div class="modal fade" id="video-tutorial-modal" tabindex="-1" aria-labelledby="videoModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content bg-dark">
+                <div class="modal-header border-bottom border-secondary">
+                    <h5 class="modal-title" id="videoModalLabel">Exercise Tutorial</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="ratio ratio-16x9">
+                        <iframe id="tutorial-video-frame" src="" title="Exercise Tutorial" allowfullscreen></iframe>
+                    </div>
+                </div>
+                <div class="modal-footer border-top border-secondary">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
